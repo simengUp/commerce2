@@ -13,9 +13,10 @@
           <el-input placeholder="请输入内容">
             <el-button
               slot="append"
-              icon="el-icon-search"
-            ></el-button> </el-input
-        ></el-col>
+              icon="el-icon-search">
+              </el-button> 
+            </el-input>
+            </el-col>
         <e-col :span="4">
           <el-button type="primary">添加用户</el-button>
         </e-col>

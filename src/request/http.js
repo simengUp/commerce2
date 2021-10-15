@@ -43,6 +43,19 @@ export function stat() {
     url: "reports/type/1"
   })
 }
+export function order(queryinfo) {
+  console.log(queryinfo);
+  return instance({
+    url: "/orders",
+    params:{
+      query: queryinfo.query,
+      pagenum: queryinfo.pagenum,
+      pagesize: queryinfo.pagesize,
+    },
+
+
+  })
+}
 
 export function reg(user, pass) {
   return instance({
