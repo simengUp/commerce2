@@ -72,6 +72,7 @@ export default {
   methods: {
     /* 退出登录 */
     logOut() {
+      //清空code
       window.sessionStorage.clear();
       this.$router.push("/Login");
     },

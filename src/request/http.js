@@ -38,6 +38,11 @@ export function group() {
     url: "/group",
   })
 }
+export function stat() {
+  return instance({
+    url: "reports/type/1"
+  })
+}
 
 export function reg(user, pass) {
   return instance({

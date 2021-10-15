@@ -63,6 +63,7 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+//路由导航守卫 控制页面的访问权限
 router.beforeEach((to, from, next) => {
   if (to.path === '/Login') return next();
   const tokenStr = window.sessionStorage.getItem('token')
