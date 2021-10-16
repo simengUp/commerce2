@@ -32,7 +32,7 @@
         <el-table-column label="是否发货" prop="is_send"></el-table-column>
         <el-table-column label="下单时间" prop="create_time">
           <template slot-scope="scope">
-            {{ scope.row.create_time }}
+            {{ scope.row.create_time | dataFormats}}
           </template>
         </el-table-column>
 

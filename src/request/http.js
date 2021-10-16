@@ -54,10 +54,40 @@ export function order(queryinfo) {
     },
   })
 }
+export function goods(queryinfo) {
+  return instance({
+    url: "/goods",
+    params:{
+      query: queryinfo.query,
+      pagenum: queryinfo.pagenum,
+      pagesize: queryinfo.pagesize,
+    },
+  })
+}
 
 export function logistics() {
   return instance({
     url: "/kuaidi/1106975712662",
+  })
+}
+export function classify() {
+  return instance({
+    url: "/categories",
+  })
+}
+export function argument(id,many) {
+  return instance({
+    url: "/categories/"+id,
+    params:{
+      sel:many
+    }
+  })
+}
+
+export function delete_(id) {
+  return instance({
+    method: 'delete',
+    url: "/goods/"+id,
   })
 }
 
