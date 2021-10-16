@@ -38,15 +38,19 @@
 
         <el-table-column label="操作">
           <template slot-scope="scope">
+            <!-- 修改地址按钮 -->
             <el-button
               size="mini"
               type="primary"
               icon="el-icon-edit"
+              @click="showbox"
             ></el-button>
+            <!-- 查看物流的按钮 -->
             <el-button
               size="mini"
               type="success"
               icon="el-icon-location"
+              @click="showProgressBox"
             ></el-button>
           </template>
         </el-table-column>
@@ -54,21 +58,71 @@
 
       <!-- 分页区 -->
       <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="queryinfo.pagenum"
-      :page-sizes="[5, 10, 15]"
-      :page-size="queryinfo.pagesize"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total">
-    </el-pagination>
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="queryinfo.pagenum"
+        :page-sizes="[5, 10, 15]"
+        :page-size="queryinfo.pagesize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      >
+      </el-pagination>
     </el-card>
+    <!-- 修改地址信息框 -->
+    <el-dialog
+      title="修改地址"
+      :visible.sync="addressvisibie"
+      width="50%"
+      @close="addressDialogClosed"
+    >
+      <el-form
+        :model="addressForm"
+        :rules="addressFormRules"
+        ref="addressFormRef"
+        label-width="100px"
+      >
+        <el-form-item label="省市区/县" prop="address1">
+          <el-cascader
+            :options="city"
+            v-model="addressForm.address1"
+          ></el-cascader>
+        </el-form-item>
+        <el-form-item label="详细地址" prop="address2">
+          <el-input v-model="addressForm.address2"></el-input>
+        </el-form-item>
+      </el-form>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addressvisibie = false">取 消</el-button>
+        <el-button type="primary" @click="addressvisibie = false"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
+    <!-- 展示物流信息框 -->
+    <el-dialog title="物流进度" :visible.sync="progressVisible" width="50%">
+        <!-- 物流时间线 -->
+      <el-timeline >
+        <el-timeline-item
+          v-for="(activity, index) in progressInfo"
+          :key="index"
+          :timestamp="activity.time"
+        >
+          {{ activity.context }}
+        </el-timeline-item>
+      </el-timeline>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 // 引入请求的地址
 import { order } from "../../request/http.js";
+// 引入物流请求
+import { logistics } from "../../request/http.js";
+
+// 引入地图信息
+import city from "./city_data2017_element.js";
 export default {
   props: {},
   data() {
@@ -80,6 +134,30 @@ export default {
       },
       total: 0,
       orderlist: [],
+      addressvisibie: false,
+      addressForm: {
+        address1: [],
+        address2: "",
+      },
+      addressFormRules: {
+        address1: [
+          {
+            required: true,
+            message: "请选择省市区县",
+            trigger: "blur",
+          },
+        ],
+        address2: [
+          {
+            required: true,
+            message: "请填写详细地址",
+            trigger: "blur",
+          },
+        ],
+      },
+      city,
+      progressVisible: false,
+      progressInfo: [],
     };
   },
   created() {
@@ -94,6 +172,7 @@ export default {
       this.total = res.data.total;
       this.orderlist = res.data.goods;
     },
+    // 下边的分页器
     handleSizeChange(newSize) {
       this.queryinfo.pagesize = newSize;
       this.getoderlist();
@@ -103,11 +182,29 @@ export default {
       this.queryinfo.pagenum = newPage;
       this.getoderlist();
     },
+    // 展示修改地址的对话框
+    showbox() {
+      this.addressvisibie = true;
+    },
+    // 点击关闭输入框清除内容
+    addressDialogClosed() {
+      this.$refs.addressFormRef.resetFields(); //清除函数
+    },
+    // 查看物流信息
+    async showProgressBox() {
+      const { data: res } = await logistics();
+      this.progressInfo = res.data.data; //物流信息
+      console.log(this.progressInfo);
+      this.progressVisible = true;
+    },
   },
   components: {},
 };
 </script>
 
 <style scoped lang="scss">
+.el-cascader {
+  width: 100%;
+}
 </style>
- 
+  

@@ -52,8 +52,12 @@ export function order(queryinfo) {
       pagenum: queryinfo.pagenum,
       pagesize: queryinfo.pagesize,
     },
+  })
+}
 
-
+export function logistics() {
+  return instance({
+    url: "/kuaidi/1106975712662",
   })
 }
 
