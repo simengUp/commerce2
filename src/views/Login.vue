@@ -77,7 +77,7 @@ export default {
     /* 登录 */
     login_() {
       this.$refs.loginRef.validate(async (valid) => {
-        console.log(valid);
+        // console.log(valid);
         if (!valid) return;
         let { data: res } = await login(
           this.loginfrom.username,

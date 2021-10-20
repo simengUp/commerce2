@@ -35,10 +35,6 @@ const routes = [{
         name: 'Goods',
         component: () => import( /* webpackChunkName: "Goods" */ '../components/goods/goods.vue')
       }, {
-        path: '/goods/add',
-        name: 'add',
-        component: () => import( /* webpackChunkName: "Add" */ '../components/goods/add.vue')
-      },{
         path: '/categories',
         name: 'Categories',
         component: () => import( /* webpackChunkName: "Categories" */ '../components/goods/categories.vue')
@@ -67,7 +63,6 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-//路由导航守卫 控制页面的访问权限
 router.beforeEach((to, from, next) => {
   if (to.path === '/Login') return next();
   const tokenStr = window.sessionStorage.getItem('token')

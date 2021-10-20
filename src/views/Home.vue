@@ -57,7 +57,9 @@ export default {
   props: {},
   data() {
     return {
+      //被激活的链接地址
       activePath: null,
+      //是否折叠
       iscollapse: false,
       navigation: [],
       iconList: {
@@ -72,14 +74,13 @@ export default {
   methods: {
     /* 退出登录 */
     logOut() {
-      //清空code
       window.sessionStorage.clear();
       this.$router.push("/Login");
     },
     /* 拿所有的菜单栏数据 */
     async getMenusList() {
       const { data: res } = await menus();
-      console.log(res);
+      // console.log(res);
       if (res.meta.status !== 200) return this.$message.error(res.data.msg);
       this.navigation = res.data;
     },

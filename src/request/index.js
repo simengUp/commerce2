@@ -5,7 +5,7 @@ export default function (config) {
     
     // baseURL: '/api',
     baseURL: process.env.VUE_APP_BASE_API,
-    timeout: 3000
+    timeout: 5000
   });
   // 添加请求拦截器
   instance.interceptors.request.use(
